@@ -2,7 +2,11 @@
   <div class="app-container">
     <!-- 顶部 header 区域 -->
 
-    <mt-header fixed title="vue-yidong-demo"></mt-header>
+    <mt-header fixed title="vue-yidong-demo">
+      <span slot="left" @click="goBack" v-show="flag">
+        <mt-button icon="back">返回</mt-button>
+      </span>
+    </mt-header>
 
     <!-- 中部 路由 router-view 区域 -->
 
@@ -23,7 +27,7 @@
       </router-link>
       <router-link class="mui-tab-item" to="/shopcar">
         <span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge">0</span>
+          <span class="mui-badge" id="badge">{{$store.getters.getAllCount}}</span>
         </span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
@@ -36,6 +40,30 @@
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      flag: false
+    };
+  },
+  created() {
+    this.flag = this.$route.path === "/home" ? false : true;
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  },
+  watch: {
+    "$route.path": function(newVal) {
+      if (newVal === "/home") {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -60,4 +88,35 @@
 .v-leave-active {
   transition: all 0.5s ease;
 }
+
+.mui-bar-tab .mui-tab-item-llb.mui-active {
+  color: #007aff;
+}
+// //解决类名重复问题，tabber无法切换问题
+// .mui-bar-tab .mui-tab-item-llb {
+//   display: table-cell;
+//   overflow: hidden;
+//   width: 1%;
+//   height: 50px;
+//   text-align: center;
+//   vertical-align: middle;
+//   white-space: nowrap;
+//   text-overflow: ellipsis;
+//   color: #929292;
+// }
+
+// .mui-bar-tab .mui-tab-item-llb .mui-icon {
+//   top: 3px;
+//   width: 24px;
+//   height: 24px;
+//   padding-top: 0;
+//   padding-bottom: 0;
+// }
+
+// .mui-bar-tab .mui-tab-item-llb .mui-icon ~ .mui-tab-label {
+//   font-size: 11px;
+//   display: block;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
 </style>

@@ -12,7 +12,7 @@
     <!-- 内容 -->
     <div class="content" v-html="newsinfo.content"></div>
     <!-- 评论 -->
-    <comment-box :id="this.id"></comment-box>
+    <cmt-box :id="this.id"></cmt-box>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
     }
   },
   components: {
-    "comment-box": comment
+    "cmt-box": comment
   }
 };
 </script>
